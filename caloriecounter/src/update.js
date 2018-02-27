@@ -5,6 +5,7 @@ const MSGS = {
     MEAL_INPUT: 'MEAL_INPUT',
     CALORIES_INPUT: 'CALORIES_INPUT',
     SAVE_MEAL: 'SAVE_MEAL',
+    DELETE_MEAL: 'DELETE_MEAL'
 }
 
 export const showFormMsg = (showForm) => {
@@ -32,6 +33,13 @@ export const saveMealMsg = {
     type: MSGS.SAVE_MEAL
 }
 
+export const deleteMealMsg = (id) => {
+    return {
+        type: MSGS.DELETE_MEAL,
+        id,
+    }
+}
+
 const update = (msg, model) => {
     switch (msg.type) {
         case MSGS.SHOW_FORM: {
@@ -54,6 +62,12 @@ const update = (msg, model) => {
 
         case MSGS.SAVE_MEAL: {
             return add(msg, model);
+        }
+
+        case MSGS.DELETE_MEAL: {
+            const { id } = msg;
+            const meals = R.filter(meal => meal.id !== id);
+            return {...model, meals};
         }
     }
     return model;
